@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>New Event</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="">
+    </head>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+        
+          <!-- This form was created to post a new event-->
+
+        <form action="/events" method="POST">
+
+            <div>
+                <label for="title">Title</label>
+                <input type="text" id="title" name="event[title]">
+            </div>
+         <!-- This is the same form but for location-->
+            <div>
+                <label for="location">Location</label>
+                <input type="text" id="location" name="event[location]">
+            </div>
+
+        <!--This button is to add the new Event-->
+        <button>Add New Event</button>
+    </form>
+    <a href="/events"> All Events</a>
+
+        <script src="" async defer></script>
+    </body>
+</html>
