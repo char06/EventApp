@@ -1,42 +1,51 @@
-<!DOCTYPE html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
-<html>
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>Edit Event</title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="">
-    </head>
-    <body>
-        <!--[if lt IE 7]>
-            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
-        <![endif]-->
+<!--This code was added to add a boilerplace to all the viwes using mate EJS. The boilerplate that all the pages will have is listed under the layouts folder-->
+
+<% layout('/layouts/boilerplate')%>
+    
+       <!--This button is to edit an Event-->
+        <div class="row">
+            <h1 class="text-center">Edit Event</h1>
+            <div class="col-6 offset-3">
+                <form action="/events/<%=event._id%>?_method=PUT" method="POST">
+                    <!--added margin bottom to both divs-->
+                    <div class="mb-3">
+                    <!--Added the bootstrap class to improve the appearance of the forms-->
+                        <labe class="form-label" for="title">Title</label>
+                        <input class="form-control" id="title" name="event[title]" value="<%=event.title %>">
+                    </div>
+                    <!-- This is the same form but to edit location-->
+                    <div class="mb-3">
+                        <label class="form-label" for="location">Location</label>
+                        <input class="form-control" id="location" name="event[location]" value="<%=event.location %>">
+                    </div>
         
-          <!-- This form was created to post a new event-->
+                    <!-- This is the same form but to edit an Image for the new Event-->
+                    <div class="mb-3">
+                        <label class="form-label" for="image">Image URL</label>
+                        <input class="form-control" type="text" id="image" name="event[image]" value="<%=event.image %>">
+                    </div>
+        
+                    <!-- This is the same form but to edit the Price for the new Event-->
+                    <div class="mb-3">
+                        <label class="form-label" for="price">Event Price</label>
+                          <div class="input-group">
+                            <span class="input-group-text" id="price">$</span>
+                            <input type="text" class="form-control" placeholder="0.00" aria-label="price" aria-describedby="price" value="<%=event.price %>">
+                          </div>
+                    </div>
+                    <!-- This is the same form but to edit the description for the new Event-->
+                    <div class="mb-3">
+                        <label class="form-label" for="description">Description</label>
+                        <textarea class="form-control" type="text" id="description" name="event[description]" placeholder="Please enter the EVENT DATE and TIME here."></textarea>
+                    </div>
+        
+                <!--This button is to update Event-->
+                <!--Added some margin around the button-->
+                <div class="mb-3">
+                    <button class="btn btn-success">Update Event</button>
+                </div>
+            </form>
 
-        <form action="/events/<%=event._id%>?_method=PUT" method="POST">
-
-            <div>
-                <label for="title">Title</label>
-                <input type="text" id="title" name="event[title]" value="<%=event.title %>">
-            </div>
-         <!-- This is the same form but for location-->
-            <div>
-                <label for="location">Location</label>
-                <input type="text" id="location" name="event[location]" value="<%=event.location %>">
-            </div>
-
-        <!--This button is to add the new Event-->
-        <button>Update Event</button>
-
-        </form>
         <a href="/events/<%= event._id%>"> Back All Events</a>
 
-        <script src="" async defer></script>
-    </body>
-</html>
+        

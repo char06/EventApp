@@ -2,7 +2,7 @@
 const express = require('express'); 
 const path = require('path');
 const mongoose = require('mongoose'); 
-//
+const ejsMate = require('ejs-mate');
 const methodOverride = require('method-override');
 const Event = require('./models/event');
 const res = require('express/lib/response');
@@ -22,7 +22,8 @@ db.once("open", () => {
 });
 
 const app = express();
-
+//Explain what EJS mate does...
+app.engine('ejs', ejsMate)
 //This code will connect the views or pages of the app with our express server. 
 app.set('view engine', 'ejs'); 
 app.set('views', path.join(__dirname, 'views'))

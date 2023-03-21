@@ -1,35 +1,31 @@
-<!DOCTYPE html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
-<html>
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>Show</title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="">
-    </head>
-    <body>
-        <!--[if lt IE 7]>
-            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
-        <![endif]-->
-        
-        <!-- Add EJS to be able to see one event and then I will add the CRUD operations-->
-       <h1><%= event.title %></h1>
-       <h2><%= event.location %></h2>
-       <p> <a href="/events/<%=event._id%>/edit">Edit</a> </p>
-        
-       <p>
-        <form action="/events/<%=event._id%>?_method=DELETE" method="POST">
-        <button>DELETE</button>
-        </form>
-       </p>
+<!--This code was added to add a boilerplace to all the viwes using mate EJS. The boilerplate that all the pages will have is listed under the layouts folder-->
 
-        <a href="/events"> Back to All Events</a>
+<% layout('/layouts/boilerplate')%>
 
-        <script src="" async defer></script>
-    </body>
-</html>
+<!-- Add EJS to be able to see one event and then I will add the CRUD operations-->
+<!--Added bootstrap to improve the style of the page-->
+     <div class="col-6 offset-3">
+        <!--Aded bootstrap card to show the image at the top and put all the info in a cointainer-->
+        <div class="card mb-3">
+                <img src="<%= event.image%>" class="card-img-top" alt="...">
+                <div class="card-body">
+                  <h5 class="card-title"><%= event.title%></h5>
+                  <p class="card-text"><%= event.description%></p>
+                </div>
+                <ul class="list-group list-group-flush">
+                  <li class="list-group-item text-secondary"><%= event.location%></li>
+                  <li class="list-group-item">$<%= event.price%></li>
+                </ul>
+                <div class="card-body">
+                  <a class="card-link btn btn-warning" href="/events/<%=event._id%>/edit">Edit</a> 
+                  <form class="d-inline" action="/events/<%=event._id%>?_method=DELETE" method="POST">
+                        <button class=" btn btn-danger">DELETE</button>
+                     </form>
+                </div>
+              </div>
+              <a href="/events"> Back to All Events</a>
+     </div>
+        
+
+
+     
