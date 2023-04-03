@@ -7,23 +7,34 @@
 <div class="row">
     <h1 class="text-center">New Event</h1>
     <div class="col-6 offset-3">
-        <form action="/events" method="POST">
+        <form action="/events" method="POST" novalidate class="validated-form">
             <!--added margin bottom to both divs-->
             <div class="mb-3">
             <!--Added the bootstrap class to improve the appearance of the forms-->
+            <!--Added client side validation by requiring all the fields to be completed-->
                 <labe class="form-label" for="title">Title</label>
-                <input class="form-control" type="text" id="title" name="event[title]">
+                <input class="form-control" type="text" id="title" name="event[title]" required>
+                <!--This code gives the user feedback about their input-->
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
             </div>
             <!-- This is the same form but for location-->
             <div class="mb-3">
                 <label class="form-label" for="location">Location</label>
-                <input class="form-control" type="text" id="location" name="event[location]">
+                <input class="form-control" type="text" id="location" name="event[location]" required>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
             </div>
 
             <!-- This is the same form but to add an Image for the new Event-->
             <div class="mb-3">
-                <label class="form-label" for="image">Image URL</label>
-                <input class="form-control" type="text" id="image" name="event[image]">
+                <label class="form-label" for="image">Image Url</label>
+                <input class="form-control" type="text" id="image" name="event[image]" required>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
             </div>
 
             <!-- This is the same form but to add a Price for the new Event-->
@@ -31,13 +42,19 @@
                 <label class="form-label" for="price">Event Price</label>
                   <div class="input-group">
                     <span class="input-group-text" id="price">$</span>
-                    <input type="text" class="form-control" placeholder="0.00" aria-label="price" aria-describedby="price">
+                    <input type="text" class="form-control" id="price" placeholder="0.00" aria-label="price" aria-describedby="price-label" name="event[price]" required>
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
                   </div>
             </div>
             <!-- This is the same form but to add a description for the new Event-->
             <div class="mb-3">
                 <label class="form-label" for="description">Description</label>
-                <textarea class="form-control" type="text" id="description" name="event[description]" placeholder="Please enter the EVENT DATE and TIME here."></textarea>
+                <textarea class="form-control" type="text" id="description" name="event[description]" placeholder="Please enter the EVENT DATE and TIME here." required></textarea>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
             </div>
 
         <!--This button is to add the new Event-->
@@ -46,6 +63,7 @@
             <button class="btn btn-success">Add New Event</button>
         </div>
     </form>
-
     <a href="/events"> Back to All Events</a>
+   </div>
 </div>
+

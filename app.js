@@ -3,9 +3,11 @@ const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose'); 
 const ejsMate = require('ejs-mate');
+const catchAsync = require('./helpers/catchAsync')
 const methodOverride = require('method-override');
 const Event = require('./models/event');
 const res = require('express/lib/response');
+const { events } = require('./models/event');
 
 //This is code to connect the dababase with our app. The host number was suggested by mongodb documentation 
 mongoose.connect('mongodb://localhost:27017/event-app', {
@@ -22,6 +24,7 @@ db.once("open", () => {
 });
 
 const app = express();
+
 //Explain what EJS mate does...
 app.engine('ejs', ejsMate)
 //This code will connect the views or pages of the app with our express server. 
@@ -35,7 +38,7 @@ app.use(methodOverride('_method'));
 //This code was added to confirm our server is connected with our app. 
 app.get('/', (req, res) => {
     res.render('home')
-})
+});
 //This is to create the different routes of the app. CRUD operations 
 
 //This code creates the all events route 
@@ -44,11 +47,11 @@ app.get('/', (req, res) => {
 app.get('/events', async (req, res) => {
     const events = await Event.find({});
     res.render('events/index', { events })
-})
+});
 
 //This code is to create a new event
 app.get('/events/new', (req, res) => {
-    res.render('events/new')
+    res.render('events/new');
 })
 
 //This code is to POST the new Event added to the database. 
@@ -56,19 +59,19 @@ app.get('/events/new', (req, res) => {
 app.post('/events', async(req, res) => {
     const event = new Event(req.body.event);
     await event.save();
-    res.redirect('/events/${event._id}')
+    res.redirect(`/events/${events._id}`)
 })
 
 //This code shows all the events and when you click on one it shows its ids. The ids were provided by the database. 
 app.get('/events/:id', async (req, res) => {
     const event = await Event.findById(req.params.id)
-    res.render('events/show', { event })
-})
+    res.render('events/show', { event });
+});
 
 //This code is to edit and Update events
 app.get('/events/:id/edit', async(req, res) => {
     const event = await Event.findById(req.params.id)
-    res.render('events/edit', { event })
+    res.render('events/edit', { event });
 
 })
 
@@ -76,8 +79,8 @@ app.get('/events/:id/edit', async(req, res) => {
 app.put('/events/:id', async(req, res) => {
     const { id } = req.params;
     const event = await Event.findByIdAndUpdate(id, {...req.body.event}) //This is the method used to update by ID
-    res.redirect('/events/${event._id}') 
-})
+    res.redirect(`/events/${events._id}`) 
+});
 
 //This is code is to delete an event. 
 app.delete('/events/:id', async (req, res) => {
@@ -85,6 +88,18 @@ app.delete('/events/:id', async (req, res) => {
     await Event.findByIdAndDelete(id);
     res.redirect('/events');
 
+})
+
+//This code was added to be run if there is an error when accessing a page. With a 404 error code. This is not finish yet. I will finish it if I have to do so.
+
+app.all('*', (req, res, next) => {
+    next(new ExpressError('Page Not Found', 404))
+})
+
+app.use((err, req, res, next) => {
+    const { statusCode = 500 } = err;
+    if (!err.message) err.message = 'Oh No, Something Went Wrong!'
+    res.status(statusCode).render('error', { err })
 })
 
 app.listen(3000, () => {

@@ -6,37 +6,48 @@
         <div class="row">
             <h1 class="text-center">Edit Event</h1>
             <div class="col-6 offset-3">
-                <form action="/events/<%=event._id%>?_method=PUT" method="POST">
+                <form action="/events/<%=event._id%>?_method=PUT" method="POST" novalidate class="validated-form">
                     <!--added margin bottom to both divs-->
                     <div class="mb-3">
                     <!--Added the bootstrap class to improve the appearance of the forms-->
-                        <labe class="form-label" for="title">Title</label>
-                        <input class="form-control" id="title" name="event[title]" value="<%=event.title %>">
+                        <label class="form-label" for="title">Title</label>
+                        <input class="form-control" type="text" id="title" name="event[title]" value="<%=event.title %>" required>
+                        <!-- Also added client side validation feedback with the code below, this is done with bootstrap-->
+                        <div class="valid-feedback">
+                            Looks good!
                     </div>
                     <!-- This is the same form but to edit location-->
                     <div class="mb-3">
                         <label class="form-label" for="location">Location</label>
-                        <input class="form-control" id="location" name="event[location]" value="<%=event.location %>">
+                        <input class="form-control" type="text" id="location" name="event[location]" value="<%=event.location %>" required>
+                        <div class="valid-feedback">
+                            Looks good!
                     </div>
         
                     <!-- This is the same form but to edit an Image for the new Event-->
                     <div class="mb-3">
-                        <label class="form-label" for="image">Image URL</label>
-                        <input class="form-control" type="text" id="image" name="event[image]" value="<%=event.image %>">
+                        <label class="form-label" for="image">Image Url</label>
+                        <input class="form-control" type="text" id="image" name="event[image]" value="<%=event.image %>" required>
+                        <div class="valid-feedback">
+                            Looks good!
                     </div>
         
                     <!-- This is the same form but to edit the Price for the new Event-->
                     <div class="mb-3">
                         <label class="form-label" for="price">Event Price</label>
                           <div class="input-group">
-                            <span class="input-group-text" id="price">$</span>
-                            <input type="text" class="form-control" placeholder="0.00" aria-label="price" aria-describedby="price" value="<%=event.price %>">
+                            <span class="input-group-text" id="price-label">$</span>
+                            <input type="text" class="form-control" id="price" placeholder="0.00" aria-label="price" aria-describedby="price-label" name="event[price]" value="<%=event.price %>" required>
+                            <div class="valid-feedback">
+                                Looks good!
                           </div>
                     </div>
                     <!-- This is the same form but to edit the description for the new Event-->
                     <div class="mb-3">
                         <label class="form-label" for="description">Description</label>
-                        <textarea class="form-control" type="text" id="description" name="event[description]" placeholder="Please enter the EVENT DATE and TIME here."></textarea>
+                        <textarea class="form-control" type="text" id="description" placeholder="Please enter the EVENT DATE and TIME here." name="event[description]" required><%= event.description%></textarea>
+                        <div class="valid-feedback">
+                            Looks good!
                     </div>
         
                 <!--This button is to update Event-->
