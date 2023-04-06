@@ -3,11 +3,20 @@ const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose'); 
 const ejsMate = require('ejs-mate');
-const catchAsync = require('./helpers/catchAsync')
+const session = require('express-session');
+const flash = require('connect-flash');
+const ExpressError = require('./helpers/ExpressError');
 const methodOverride = require('method-override');
-const Event = require('./models/event');
-const res = require('express/lib/response');
-const { events } = require('./models/event');
+//The following two lines of code will allow us to complete the authentication 
+const passport = require('passport'); 
+const LocalStrategy = require('passport-local');
+const User = require('./models/user'); 
+//The following line is to require the new event routes
+
+const userRoutes = require('./routes/users'); 
+const eventRoutes = require('./routes/events'); 
+const reviewRoutes = require('./models/user');
+
 
 //This is code to connect the dababase with our app. The host number was suggested by mongodb documentation 
 mongoose.connect('mongodb://localhost:27017/event-app', {
@@ -34,63 +43,48 @@ app.set('views', path.join(__dirname, 'views'))
 //This will parse the information entered in the form. 
 app.use(express.urlencoded({extended:true}));
 app.use(methodOverride('_method'));
+app.use(express.static(path.join(__dirname, 'public')))
+
+
+const sessionConfig = {
+    secret: 'thisshouldbeasecret!',
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+        httpOnly: true,
+        expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
+        maxAge: 1000 * 60 * 60 * 24 * 7
+    }
+}
+
+//Added this code to enable authentication
+
+app.use(session(sessionConfig))
+app.use(flash());
+
+app.use(passport.initialize()); 
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate())); 
+
+passport.serializeUser(User.serializeUser()); 
+passport.deserializeUser(User.deserializeUser()); 
+
+app.use((req, res, next) => {
+    console.log(req.session)
+    res.locals.currentUser = req.user;
+    res.locals.success = req.flash('success');
+    res.locals.error = req.flash('error');
+    next();
+})
+
+app.use('/', userRoutes);
+app.use('/events', eventRoutes)
+app.use('/events/:id/reviews', reviewRoutes)
 
 //This code was added to confirm our server is connected with our app. 
 app.get('/', (req, res) => {
     res.render('home')
 });
-//This is to create the different routes of the app. CRUD operations 
-
-//This code creates the all events route 
-//This code is to go to main page of the events. 
-//This is the Index or main page 
-app.get('/events', async (req, res) => {
-    const events = await Event.find({});
-    res.render('events/index', { events })
-});
-
-//This code is to create a new event
-app.get('/events/new', (req, res) => {
-    res.render('events/new');
-})
-
-//This code is to POST the new Event added to the database. 
-
-app.post('/events', async(req, res) => {
-    const event = new Event(req.body.event);
-    await event.save();
-    res.redirect(`/events/${events._id}`)
-})
-
-//This code shows all the events and when you click on one it shows its ids. The ids were provided by the database. 
-app.get('/events/:id', async (req, res) => {
-    const event = await Event.findById(req.params.id)
-    res.render('events/show', { event });
-});
-
-//This code is to edit and Update events
-app.get('/events/:id/edit', async(req, res) => {
-    const event = await Event.findById(req.params.id)
-    res.render('events/edit', { event });
-
-})
-
-//This is to edit and post the change to the database 
-app.put('/events/:id', async(req, res) => {
-    const { id } = req.params;
-    const event = await Event.findByIdAndUpdate(id, {...req.body.event}) //This is the method used to update by ID
-    res.redirect(`/events/${events._id}`) 
-});
-
-//This is code is to delete an event. 
-app.delete('/events/:id', async (req, res) => {
-    const {id} = req.params;
-    await Event.findByIdAndDelete(id);
-    res.redirect('/events');
-
-})
-
-//This code was added to be run if there is an error when accessing a page. With a 404 error code. This is not finish yet. I will finish it if I have to do so.
 
 app.all('*', (req, res, next) => {
     next(new ExpressError('Page Not Found', 404))
@@ -98,7 +92,7 @@ app.all('*', (req, res, next) => {
 
 app.use((err, req, res, next) => {
     const { statusCode = 500 } = err;
-    if (!err.message) err.message = 'Oh No, Something Went Wrong!'
+    if (!err.message) err.message = 'Something Went Wrong!'
     res.status(statusCode).render('error', { err })
 })
 

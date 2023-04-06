@@ -4,9 +4,10 @@
 
 <!-- Add EJS to be able to see one event and then I will add the CRUD operations-->
 <!--Added bootstrap to improve the style of the page-->
-     <div class="col-6 offset-3">
+<div class="row">
+     <div class="col-6">
         <!--Aded bootstrap card to show the image at the top and put all the info in a cointainer-->
-        <div class="card mb-3">
+         <div class="card mb-3">
                 <img src="<%= event.image%>" class="card-img-top" alt="...">
                 <div class="card-body">
                   <h5 class="card-title"><%= event.title%></h5>
@@ -22,10 +23,44 @@
                         <button class=" btn btn-danger">DELETE</button>
                      </form>
                 </div>
-              </div>
-              <a href="/events"> Back to All Events</a>
-     </div>
-        
+          </div>
+  </div>
+  
+          
+<!-- This is to create an review --> 
+    <div class="col-6">
+           <h2>Leave a Review</h2>
+           <form action="/events/<%=event._id%>/reviews" method="POST" class="mb-3 validated-form" novalidate>
+               <div class="mb-3">
+                   <label class="form-label" for="rating">Rating</label>
+                   <input class="form-range" type="range" min="1" max="5" name="review[rating]" id="rating">
+               </div>
+               <div class="mb-3">
+                   <label class="form-label" for="body">Review</label>
+                   <textarea class="form-control" name="review[body]" id="body" cols="30" rows="3" required></textarea>
+                   <div class="valid-feedback">
+                       Looks good!
+                   </div>
+               </div>
+               <button class="btn btn-success">Submit</button>
+           </form>
+           <% for(let review of event.reviews) { %>
+           <div class="card mb-3 ">
+               <div class="card-body">
+                   <h5 class="card-title">Rating: <%= review.rating %></h5>
+                   <p class="card-text">Review: <%= review.body %></p>
+                   <form action="/events/<%=event._id%>/reviews/<%=review._id%>?_method=DELETE" method="POST">
+                       <button class="btn btn-sm btn-danger">Delete</button>
+                   </form>
+               </div>
+           </div>
+           <% } %>
+      </div>
+  </div>
+
+
+
+ 
 
 
      
