@@ -34,6 +34,7 @@ const seedDB = async () => {
         //The line code below creates a random price
         const price = Math.floor(Math.random() * 30) + 10;
         const event = new Event({
+            author: '642e2c7821c22b21bccee120',
             location: `${cities[random1000].city}, ${cities[random1000].state}`,
             title: `${sample(descriptors)} ${sample(places)}`,
             //Added unsplash collection to ramdonly show an image associated with the event. 

@@ -1,5 +1,4 @@
-//This code is to complete the review model 
-
+//This code is to complete the review model
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema; 
 

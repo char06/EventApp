@@ -17,9 +17,7 @@ const validateEvent = (req, res, next) => {
         next();
     }
 }
-
 //This is to create the different routes of the app. CRUD operations 
-
 //This code creates the all events route 
 //This code is to go to main page of the events. 
 //This is the Index or main page 
@@ -44,7 +42,7 @@ router.post('/', isLoggedIn, validateEvent, catchAsync(async (req, res, next) =>
 
 //This code shows all the events and when you click on one it shows its ids. The ids were provided by the database. 
 router.get('/:id', catchAsync(async (req, res,) => {
-    const event = await Event.findById(req.params.id).populate('reviews');
+    const event = await Event.findById(req.params.id).populate('reviews').populate('author');
     if (!event) {
         req.flash('error', 'Cannot find that Event!');
         return res.redirect('/events');

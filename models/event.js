@@ -1,5 +1,6 @@
 //This code was added to connect and add the mongo database to our event app
 const mongoose = require('mongoose');
+const Review = require('./review')
 const Schema = mongoose.Schema;
 
 //An Object Data Modeling (ODM) library for MongoDB and Node.js is called Mongoose. It handles data associations, offers schema validation, and translates between objects created in code and how MongoDB represents those same items.
@@ -11,7 +12,13 @@ const EventSchema  = new Schema({
     image: String,
     price: Number,
     description: String,
-    location: String, 
+    location: String,
+    //The following line of code is to add basic authorization about who can add or remove reviews or events
+    author:{
+        type: Schema.Types.ObjectId, 
+        ref: 'User'
+
+    }, 
     reviews: [
         {
             type: Schema.Types.ObjectId,
