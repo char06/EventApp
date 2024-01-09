@@ -15,5 +15,8 @@ By using web app development, web-based projects can function and behave just li
 
 <img width="1921" alt="newlook" src="https://github.com/char06/EventApp/assets/24831449/aaeb01c6-08b2-44ea-ac4e-f6cd088c4335">
 
-
+div align="center">
 <img width="819" alt="Eventify-app" src="https://github.com/char06/EventApp/assets/24831449/6d81583a-0506-4dd0-8446-3e7bea268948">
+</div>
+
+
